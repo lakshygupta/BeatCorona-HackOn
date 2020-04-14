@@ -1,0 +1,40 @@
+{
+  "project_info": {
+    "project_number": "728284742902",
+    "firebase_url": "https://beat-corona.firebaseio.com",
+    "project_id": "beat-corona",
+    "storage_bucket": "beat-corona.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:728284742902:android:eb5020675a5a8fb22c18d7",
+        "android_client_info": {
+          "package_name": "com.example.beatcorona"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "728284742902-dqi80s04oeq1jc5m7npvnpbs0oltko6a.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyB5WyMdxI8sReHsPnfzjKMkaMFCw66ymMo"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "728284742902-dqi80s04oeq1jc5m7npvnpbs0oltko6a.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
