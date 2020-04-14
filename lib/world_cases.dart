@@ -2,34 +2,47 @@ import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 import 'dart:convert';
 
-class UserList extends StatelessWidget{
+class UserList1 extends StatelessWidget{
 
-  final String apiUrl = "https://api.covid19india.org/data.json";
+  final String apiUrl = "https://api.covid19api.com/summary";
 
   Future<List<dynamic>> fetchUsers() async {
 
-    var result = await http.get(apiUrl);
-    return json.decode(result.body)['statewise'];
+    http.Response result = await http.get(apiUrl);
+    return json.decode(result.body)['Countries'];
 
   }
 
   String _name(dynamic user){
 
-    return user['state'];
+    return user['Country'];
   }
 
-  String _cases(dynamic user){
-    return "Active Cases: " + user['active'] + "\n" + "Confirmed Cases: " + user['confirmed'];
+  int _cases(dynamic user){
+//    var val = ${};
+    return user['NewConfirmed'];
   }
-  String _death(dynamic user){
-    return "Deaths: " + user['deaths'] + "\n" + "Recovered: " + user['recovered'];
+  int _confirmc(dynamic user){
+//    var val = ${};
+    return user['TotalConfirmed'];
   }
+  int _ndeaths(dynamic user){
+//    var val = ${};
+    return user['NewDeaths'];
+  }
+  int _tdeaths(dynamic user){
+//    var val = ${};
+    return user['TotalDeaths'];
+  }
+//  String _death(dynamic user){
+////    return "Deaths: " + user['TotalDeaths'] + "\n" + "Recovered: " + user['NewRecovered'];
+////  }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('India Cases'),
+        title: Text('World Cases'),
       ),
       body: Container(
         child: FutureBuilder<List<dynamic>>(
@@ -47,8 +60,9 @@ class UserList extends StatelessWidget{
                             ListTile(
                               isThreeLine: true,
                               title: Text(_name(snapshot.data[index]),style: TextStyle(fontSize: 20.0, fontWeight: FontWeight.normal),),
-                              subtitle: Text(_cases(snapshot.data[index]),style: TextStyle(fontSize: 15.0),),
-                              trailing: Text(_death(snapshot.data[index]),style: TextStyle(fontSize: 15.0),),
+                              subtitle: Text("Active Cases: " + _cases(snapshot.data[index]).toString() + "\n" + "Confirmed Cases: " + _confirmc(snapshot.data[index]).toString()),
+                              trailing: Text("Deaths: " + _ndeaths(snapshot.data[index]).toString() + "\n" + "Recovered" + _tdeaths(snapshot.data[index]).toString()),
+//                              trailing: Text(_death(snapshot.data[index]),style: TextStyle(fontSize: 15.0),),
                             )
                           ],
                         ),

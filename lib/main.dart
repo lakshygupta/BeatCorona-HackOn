@@ -5,6 +5,7 @@ import 'newsfeeds.dart';
 import 'Register.dart';
 import 'homepage.dart';
 import 'count.dart';
+import 'world_cases.dart';
 import 'live_updates.dart';
 void main() {
   runApp(MaterialApp(
@@ -85,7 +86,7 @@ class Need extends StatelessWidget {
     return Scaffold(
       appBar: AppBar(
         title: Text('Beat Corona'),
-        backgroundColor: Colors.green[500],
+        backgroundColor: Colors.blueAccent,
         actions: <Widget>[
           IconButton(
             icon: const Icon(Icons.refresh),
@@ -223,23 +224,40 @@ class Need extends StatelessWidget {
                           new UserList()));
                 },
               ),
-              ListTile(
-                leading:Icon(Icons.live_tv) ,
-                title: Text('Live Updates',
-                  style: TextStyle(
-                    fontSize: 20,
-                  ),),
-                onTap: () {
-                  // Update the state of the app.
-                  // ...
+            ListTile(
+              leading:Icon(Icons.gps_fixed) ,
+              title: Text('World Cases',
+                style: TextStyle(
+                  fontSize: 20,
+                ),),
+              onTap: () {
+                // Update the state of the app.
+                // ...
 
-                  Navigator.of(context).push(MaterialPageRoute(
+                Navigator.push(
+                    context,
+                    new MaterialPageRoute(
+                        builder: (BuildContext context) =>
+                        new UserList1()));
+              },
+            ),
+            ListTile(
+              leading:Icon(Icons.live_tv) ,
+              title: Text('Live Updates',
+                style: TextStyle(
+                  fontSize: 20,
+                ),),
+              onTap: () {
+                // Update the state of the app.
+                // ...
+
+                Navigator.of(context).push(MaterialPageRoute(
         builder: (BuildContext context) => MyWebView(
               title: "Live Updates",
               selectedUrl: "https://linkpe.in/",
             )));
-                },
-              ),
+              },
+            ),
           ],
         ),
       ),
