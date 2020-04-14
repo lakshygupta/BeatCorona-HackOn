@@ -5,6 +5,7 @@ import 'newsfeeds.dart';
 import 'Register.dart';
 import 'homepage.dart';
 import 'count.dart';
+import'world_cases.dart';
 void main() {
   runApp(MaterialApp(
     home: Need(),
@@ -84,7 +85,7 @@ class Need extends StatelessWidget {
     return Scaffold(
       appBar: AppBar(
         title: Text('Beat Corona'),
-        backgroundColor: Colors.green[500],
+        backgroundColor: Colors.blueAccent,
         actions: <Widget>[
           IconButton(
             icon: const Icon(Icons.refresh),
@@ -222,6 +223,23 @@ class Need extends StatelessWidget {
                           new UserList()));
                 },
               ),
+            ListTile(
+              leading:Icon(Icons.gps_fixed) ,
+              title: Text('World Cases',
+                style: TextStyle(
+                  fontSize: 20,
+                ),),
+              onTap: () {
+                // Update the state of the app.
+                // ...
+
+                Navigator.push(
+                    context,
+                    new MaterialPageRoute(
+                        builder: (BuildContext context) =>
+                        new UserList1()));
+              },
+            ),
           ],
         ),
       ),
