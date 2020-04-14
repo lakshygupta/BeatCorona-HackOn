@@ -7,7 +7,6 @@ import 'newsfeeds.dart';
 import 'Register.dart';
 import 'homepage.dart';
 import 'count.dart';
-import 'package:provider/provider.dart';
 
 void main() {
   runApp(
@@ -21,20 +20,7 @@ void main() {
 }
 class Myapp extends StatefulWidget {
   @override
-  _MyappState createState() => _MyappState();
-}
 
-class _MyappState extends State<Myapp> {
-@override
-Widget build(BuildContext context) {
-return MaterialApp(
-title:'Home Screen',
-home: Consumer<AuthNotifier>(
-builder:  (context,notifier,child){
-  return notifier.user != null ? Need() : Login();
-}
-) ,
-);
 }
 }
 
