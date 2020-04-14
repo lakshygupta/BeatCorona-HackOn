@@ -84,29 +84,36 @@ class Need extends StatelessWidget {
     print("Building Homepage");
     return Scaffold(
       appBar: AppBar(
-        title: Text(authNotifier.user != null ? 'Welcome ' + authNotifier.user.displayName  : "Homepage"),
+        title: Text(authNotifier.user != null ? 'Welcome ' + authNotifier.user.displayName  : "Homepage", style: TextStyle(fontSize: 20.0),),
         backgroundColor: Colors.green[500],
         actions: <Widget>[
-          IconButton(
-            icon: const Icon(Icons.speaker_notes),
+//          IconButton(
+//            icon: const Icon(Icons.speaker_notes),
+//            onPressed: () {
+//              notesOpen(context);
+//          return signout(authNotifier);
+//            },
+//          ),
+//          FlatButton(
+////            color:Colors.green[500],
+//            onPressed: () {
+//              return signout(authNotifier);
+//            },
+//            child: Text(
+//              "Log Out",
+//              style: TextStyle(
+//                fontSize: 15,
+//                color: Colors.yellow,
+//              ),
+//            )
+//          )
+        IconButton(
+            icon: const Icon(Icons.power_settings_new),
             onPressed: () {
-              notesOpen(context);
+
+          return signout(authNotifier);
             },
           ),
-          FlatButton(
-            color:Colors.green[500],
-            onPressed: () {
-              return signout(authNotifier);
-            },
-            child: Text(
-              "Log Out",
-              style: TextStyle(
-                fontSize: 20,
-                color: Colors.yellow,
-              ),
-            )
-          )
-
         ],
       ),
       body: Column(
@@ -266,14 +273,13 @@ class Need extends StatelessWidget {
         ),
       ),
       floatingActionButton: FloatingActionButton(
-        onPressed: () {
-          var id = 1;
-          Navigator.push(
-              context,
-              new MaterialPageRoute(
-                  builder: (BuildContext context) => new NewsFeedPage(id)));
-        },
-        child: Icon(Icons.event),
+        child:
+          IconButton(
+            icon: const Icon(Icons.speaker_notes),
+            onPressed: () {
+              notesOpen(context);
+            },
+          ),
       ),
     );
   }
