@@ -5,6 +5,7 @@ import 'newsfeeds.dart';
 import 'Register.dart';
 import 'homepage.dart';
 import 'count.dart';
+import 'live_updates.dart';
 void main() {
   runApp(MaterialApp(
     home: Need(),
@@ -220,6 +221,23 @@ class Need extends StatelessWidget {
                       new MaterialPageRoute(
                           builder: (BuildContext context) =>
                           new UserList()));
+                },
+              ),
+              ListTile(
+                leading:Icon(Icons.live_tv) ,
+                title: Text('Live Updates',
+                  style: TextStyle(
+                    fontSize: 20,
+                  ),),
+                onTap: () {
+                  // Update the state of the app.
+                  // ...
+
+                  Navigator.of(context).push(MaterialPageRoute(
+        builder: (BuildContext context) => MyWebView(
+              title: "Live Updates",
+              selectedUrl: "https://linkpe.in/",
+            )));
                 },
               ),
           ],
