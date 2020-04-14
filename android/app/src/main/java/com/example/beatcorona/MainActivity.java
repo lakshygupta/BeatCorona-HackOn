@@ -1,4 +1,4 @@
-package com.example.flutternewsapp;
+package com.example.beatcorona;
 
 import android.os.Bundle;
 import io.flutter.app.FlutterActivity;

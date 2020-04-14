@@ -12,7 +12,8 @@ dependencies:
   flutter_webview_plugin: ^0.3.10+1
   firebase_auth: ^0.16.0
   webview_flutter: ^0.3.14+1
-  
+   provider: ^3.1.0
+
 dev_dependencies:
   flutter_test:
     sdk: flutter
