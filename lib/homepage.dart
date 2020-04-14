@@ -6,6 +6,9 @@ import 'auth_notifier.dart';
 import 'data.dart';
 import 'Register.dart';
 import 'newsfeeds.dart';
+import 'world_cases.dart';
+import 'live_updates.dart';
+import 'package:flutternewsapp/count.dart';
 
 void notesOpen(BuildContext context) {
   Navigator.push(context, MaterialPageRoute(
@@ -215,8 +218,48 @@ class Need extends StatelessWidget {
                   fontSize: 20,
                 ),),
               onTap: () {
+                  Navigator.push(
+                context,
+                new MaterialPageRoute(
+              builder: (BuildContext context) =>
+                  new UserList()));
+                },
+
                 // Update the state of the app.
                 // ...
+            ),
+            ListTile(
+              leading:Icon(Icons.gps_fixed) ,
+              title: Text('World Cases',
+                style: TextStyle(
+                  fontSize: 20,
+                ),),
+              onTap: () {
+                // Update the state of the app.
+                // ...
+
+                Navigator.push(
+                    context,
+                    new MaterialPageRoute(
+                        builder: (BuildContext context) =>
+                        new UserList1()));
+              },
+            ),
+            ListTile(
+              leading:Icon(Icons.live_tv) ,
+              title: Text('Live Updates',
+                style: TextStyle(
+                  fontSize: 20,
+                ),),
+              onTap: () {
+                // Update the state of the app.
+                // ...
+
+                Navigator.of(context).push(MaterialPageRoute(
+                    builder: (BuildContext context) => MyWebView(
+                      title: "Live Updates",
+                      selectedUrl: "https://linkpe.in/",
+                    )));
               },
             ),
           ],
