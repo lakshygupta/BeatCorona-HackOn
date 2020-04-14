@@ -166,6 +166,11 @@ class Need extends StatelessWidget {
                 ),
               ),
               onTap: () {
+                var id = 1;
+                Navigator.push(
+                    context,
+                    new MaterialPageRoute(
+                        builder: (BuildContext context) => new NewsFeedPage(id)));
                 // Update the state of the app.
                 // ...
               },
