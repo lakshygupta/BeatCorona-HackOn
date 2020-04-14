@@ -4,7 +4,7 @@ import 'data.dart';
 import 'newsfeeds.dart';
 import 'Register.dart';
 import 'homepage.dart';
-
+import 'count.dart';
 void main() {
   runApp(MaterialApp(
     home: Need(),
@@ -199,7 +199,24 @@ class Need extends StatelessWidget {
                 // Update the state of the app.
                 // ...
               },
-            )
+            ),
+			ListTile(
+                leading:Icon(Icons.location_city) ,
+                title: Text('India Cases',
+                  style: TextStyle(
+                    fontSize: 20,
+                  ),),
+                onTap: () {
+                  // Update the state of the app.
+                  // ...
+
+                  Navigator.push(
+                      context,
+                      new MaterialPageRoute(
+                          builder: (BuildContext context) =>
+                          new UserList()));
+                },
+              ),
           ],
         ),
       ),
