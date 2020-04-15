@@ -61,7 +61,7 @@ class UserList1 extends StatelessWidget{
                               isThreeLine: true,
                               title: Text(_name(snapshot.data[index]),style: TextStyle(fontSize: 20.0, fontWeight: FontWeight.normal),),
                               subtitle: Text("Active Cases: " + _cases(snapshot.data[index]).toString() + "\n" + "Confirmed Cases: " + _confirmc(snapshot.data[index]).toString()),
-                              trailing: Text("Deaths: " + _ndeaths(snapshot.data[index]).toString() + "\n" + "Recovered" + _tdeaths(snapshot.data[index]).toString()),
+                              trailing: Text("Deaths: " + _ndeaths(snapshot.data[index]).toString() + "\n" + "Recovered: " + _tdeaths(snapshot.data[index]).toString()),
 //                              trailing: Text(_death(snapshot.data[index]),style: TextStyle(fontSize: 15.0),),
                             )
                           ],

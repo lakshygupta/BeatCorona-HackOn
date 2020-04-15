@@ -10,6 +10,8 @@ import 'newsfeeds.dart';
 import 'world_cases.dart';
 import 'live_updates.dart';
 import 'package:flutternewsapp/count.dart';
+import 'precautions.dart';
+import 'bibliography.dart';
 
 void notesOpen(BuildContext context) {
   Navigator.push(context, MaterialPageRoute(
@@ -27,8 +29,8 @@ void notesOpen(BuildContext context) {
 class Need extends StatelessWidget {
   List<Data> data = [
     Data(text: 'Fruits', customor: 'Dhwaj Gupta', category: 'fruits'),
-    Data(text: 'MILK', customor: 'Rahul', category: 'Home'),
-    Data(text: 'Water Bottles', customor: 'LakshyGupta', category: 'Home'),
+    Data(text: 'MILK', customor: 'Rahul Kushwaha', category: 'Home'),
+    Data(text: 'Water Bottles', customor: 'Lakshy Gupta', category: 'Home'),
   ];
 
   Widget getIcon(list) {
@@ -86,7 +88,7 @@ class Need extends StatelessWidget {
     return Scaffold(
       appBar: AppBar(
         title: Text(authNotifier.user != null ? 'Welcome ' + authNotifier.user.displayName  : "Homepage", style: TextStyle(fontSize: 20.0),),
-        backgroundColor: Colors.green[500],
+        backgroundColor: Colors.blue,
         actions: <Widget>[
 //          IconButton(
 //            icon: const Icon(Icons.speaker_notes),
@@ -252,6 +254,42 @@ class Need extends StatelessWidget {
               },
             ),
             ListTile(
+              leading:Icon(Icons.local_hospital,
+                color: Colors.red,) ,
+              title: Text('Precautions',
+                style: TextStyle(
+                  fontSize: 20,
+                ),),
+              onTap: () {
+                // Update the state of the app.
+                // ...
+
+                Navigator.push(
+                    context,
+                    new MaterialPageRoute(
+                        builder: (BuildContext context) =>
+                        new InfoScreen()));
+              },
+            ),
+            ListTile(
+              leading:Icon(Icons.developer_mode,
+                color: Colors.green,) ,
+              title: Text('Miscellaneous',
+                style: TextStyle(
+                  fontSize: 20,
+                ),),
+              onTap: () {
+                // Update the state of the app.
+                // ...
+
+                Navigator.push(
+                    context,
+                    new MaterialPageRoute(
+                        builder: (BuildContext context) =>
+                        new Sources()));
+              },
+            ),
+            ListTile(
               leading: Icon(Icons.power_settings_new,
                 color: Colors.red,),
               title: Text(
@@ -266,6 +304,10 @@ class Need extends StatelessWidget {
                 // ...
               },
             ),
+            new Divider(color: Colors.blueGrey,),
+            ListTile(
+              title: Text("Rahul Kushwaha | Dhwaj Gupta | Lakshy Gupta", style: TextStyle(fontSize: 11.0, color: Colors.grey,), ),
+            )
           ],
         ),
       ),
