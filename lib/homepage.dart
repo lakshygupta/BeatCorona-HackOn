@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutternewsapp/api/food_api.dart';
 import 'package:flutternewsapp/login.dart';
+import 'package:flutternewsapp/reminders.dart';
 import 'package:provider/provider.dart';
 import 'auth_notifier.dart';
 import 'data.dart';
@@ -145,9 +146,10 @@ class Need extends StatelessWidget {
               ),
             ),
             ListTile(
-              leading: Icon(Icons.computer),
+              leading: Icon(Icons.computer,
+              color: Colors.red,),
               title: Text(
-                'Register',
+                'Register/Login',
                 style: TextStyle(
                   fontSize: 20,
                 ),
@@ -162,20 +164,8 @@ class Need extends StatelessWidget {
               },
             ),
             ListTile(
-              leading: Icon(Icons.alarm),
-              title: Text(
-                'Reminders',
-                style: TextStyle(
-                  fontSize: 20,
-                ),
-              ),
-              onTap: () {
-                // Update the state of the app.
-                // ...
-              },
-            ),
-            ListTile(
-              leading: Icon(Icons.event_note),
+              leading: Icon(Icons.event_note,
+              color: Colors.blue,),
               title: Text(
                 'Get News',
                 style: TextStyle(
@@ -192,21 +182,10 @@ class Need extends StatelessWidget {
                 // ...
               },
             ),
+
             ListTile(
-              leading: Icon(Icons.event_note),
-              title: Text(
-                'Login Again',
-                style: TextStyle(
-                  fontSize: 20,
-                ),
-              ),
-              onTap: () {
-                // Update the state of the app.
-                // ...
-              },
-            ),
-            ListTile(
-              leading: Icon(Icons.shop),
+              leading: Icon(Icons.shop,
+                color: Colors.green,),
               title: Text(
                 'Nearby Shops',
                 style: TextStyle(
@@ -219,7 +198,8 @@ class Need extends StatelessWidget {
               },
             ),
             ListTile(
-              leading:Icon(Icons.location_city) ,
+              leading:Icon(Icons.location_city,
+                color: Colors.orange,) ,
               title: Text('India Cases',
                 style: TextStyle(
                   fontSize: 20,
@@ -236,7 +216,8 @@ class Need extends StatelessWidget {
                 // ...
             ),
             ListTile(
-              leading:Icon(Icons.gps_fixed) ,
+              leading:Icon(Icons.gps_fixed,
+                color: Colors.blue[400],) ,
               title: Text('World Cases',
                 style: TextStyle(
                   fontSize: 20,
@@ -253,7 +234,8 @@ class Need extends StatelessWidget {
               },
             ),
             ListTile(
-              leading:Icon(Icons.live_tv) ,
+              leading:Icon(Icons.live_tv,
+                color: Colors.yellow[600],) ,
               title: Text('Live Updates',
                 style: TextStyle(
                   fontSize: 20,
@@ -267,6 +249,21 @@ class Need extends StatelessWidget {
                       title: "Live Updates",
                       selectedUrl: "https://linkpe.in/",
                     )));
+              },
+            ),
+            ListTile(
+              leading: Icon(Icons.power_settings_new,
+                color: Colors.red,),
+              title: Text(
+                'Log Out',
+                style: TextStyle(
+                  fontSize: 20,
+                ),
+              ),
+              onTap: () {
+                return signout(authNotifier);
+                // Update the state of the app.
+                // ...
               },
             ),
           ],
