@@ -56,7 +56,7 @@ Future<List<News>> fatchNews(http.Client client, id) async {
   String url;
   // if (id == 1) {
     url =
-        Constant.base_url + "top-headlines?country=in&q=COVID&from=2020-03-14&sortBy=publishedAt&apiKey=" + Constant.key;
+        Constant.base_url + "top-headlines?country=in&q=COVID&sortBy=publishedAt&apiKey=" + Constant.key;
   // }
   final response = await client.get(url);
   return compute(parsenews, response.body);
