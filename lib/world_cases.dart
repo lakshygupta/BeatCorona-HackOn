@@ -1,20 +1,20 @@
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 import 'dart:convert';
-
+import 'search.dart';
 class UserList1 extends StatelessWidget{
+  List countryData;
 
   final String apiUrl = "https://api.covid19api.com/summary";
 
   Future<List<dynamic>> fetchUsers() async {
 
     http.Response result = await http.get(apiUrl);
-    return json.decode(result.body)['Countries'];
-
+    countryData =  json.decode(result.body)['Countries'];
+    return countryData;
   }
 
   String _name(dynamic user){
-
     return user['Country'];
   }
 
@@ -28,11 +28,11 @@ class UserList1 extends StatelessWidget{
   }
   int _ndeaths(dynamic user){
 //    var val = ${};
-    return user['NewDeaths'];
+    return user['TotalDeaths'];
   }
   int _tdeaths(dynamic user){
 //    var val = ${};
-    return user['TotalDeaths'];
+    return user['TotalRecovered'];
   }
 //  String _death(dynamic user){
 ////    return "Deaths: " + user['TotalDeaths'] + "\n" + "Recovered: " + user['NewRecovered'];
@@ -42,6 +42,11 @@ class UserList1 extends StatelessWidget{
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
+        actions: <Widget>[
+          IconButton(icon: Icon(Icons.search),onPressed: () {
+            showSearch(context: context, delegate: Search(countryData));
+          },)
+        ],
         title: Text('World Cases'),
       ),
       body: Container(
@@ -71,11 +76,14 @@ class UserList1 extends StatelessWidget{
             }else {
               return Center(child: CircularProgressIndicator());
             }
+
           },
 
 
         ),
+
       ),
+
     );
   }
 

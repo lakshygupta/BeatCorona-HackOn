@@ -1,16 +1,16 @@
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 import 'dart:convert';
-
+import 'India_Search.dart';
 class UserList extends StatelessWidget{
-
+  List stateData;
   final String apiUrl = "https://api.covid19india.org/data.json";
 
   Future<List<dynamic>> fetchUsers() async {
 
     var result = await http.get(apiUrl);
-    return json.decode(result.body)['statewise'];
-
+    stateData = json.decode(result.body)['statewise'];
+    return stateData;
   }
 
   String _name(dynamic user){
@@ -29,6 +29,11 @@ class UserList extends StatelessWidget{
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
+        actions: <Widget>[
+          IconButton(icon: Icon(Icons.search),onPressed: () {
+            showSearch(context: context, delegate: Search(stateData));
+          },)
+        ],
         title: Text('India Cases'),
       ),
       body: Container(
