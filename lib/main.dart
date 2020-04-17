@@ -1,12 +1,12 @@
 import 'package:flutter/material.dart';
-import 'package:flutternewsapp/auth_notifier.dart';
+import 'package:flutternewsapp/api/auth_notifier.dart';
 import 'package:flutternewsapp/homepage.dart';
 import 'package:flutternewsapp/login.dart';
-import 'data.dart';
-import 'newsfeeds.dart';
+import 'model/data.dart';
+import 'Drawer/newsfeeds.dart';
 import 'Register.dart';
 import 'homepage.dart';
-import 'count.dart';
+import 'Drawer/count.dart';
 import 'package:provider/provider.dart';
 
 void main() {

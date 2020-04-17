@@ -1,9 +1,9 @@
 
 import 'package:flutter/material.dart';
-import 'package:flutternewsapp/user.dart';
+import 'package:flutternewsapp/model/user.dart';
 import 'package:provider/provider.dart';
 import 'api/food_api.dart';
-import 'auth_notifier.dart';
+import 'api/auth_notifier.dart';
 
 enum AuthMode { Signup, Login }
 
@@ -18,7 +18,8 @@ class _LoginState extends State<Login> {
   final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
   final TextEditingController _passwordController = new TextEditingController();
   AuthMode _authMode = AuthMode.Login;
-
+  var types = ['Seller','Buyer'];
+  var currentselected = 'Buyer';
   User _user = User();
 
   @override
@@ -48,15 +49,15 @@ class _LoginState extends State<Login> {
     return TextFormField(
       decoration: InputDecoration(
         labelText: "Display Name",
-          border: new OutlineInputBorder(
-            borderRadius: new BorderRadius.circular(25.0),
-            borderSide: new BorderSide(),
-          ),
-        labelStyle: TextStyle(color: Colors.white54),
+        border: new OutlineInputBorder(
+          borderRadius: new BorderRadius.circular(25.0),
+          borderSide: new BorderSide(),
+        ),
+        labelStyle: TextStyle(color: Colors.black),
       ),
       keyboardType: TextInputType.text,
-      style: TextStyle(fontSize: 26, color: Colors.white),
-      cursorColor: Colors.white,
+      style: TextStyle(fontSize: 26, color: Colors.black),
+      cursorColor: Colors.black,
       validator: (String value) {
         if (value.isEmpty) {
           return 'Display Name is required';
@@ -73,6 +74,59 @@ class _LoginState extends State<Login> {
       },
     );
   }
+  Widget _buildshopname() {
+    return TextFormField(
+      decoration: InputDecoration(
+        labelText: "Shop Name",
+        border: new OutlineInputBorder(
+          borderRadius: new BorderRadius.circular(25.0),
+          borderSide: new BorderSide(),
+        ),
+        labelStyle: TextStyle(color: Colors.black),
+      ),
+      keyboardType: TextInputType.text,
+      style: TextStyle(fontSize: 26, color: Colors.black),
+      cursorColor: Colors.black,
+      validator: (String value) {
+        if (value.isEmpty) {
+          return 'Shop Name is required';
+        }
+
+        if (value.length < 5 ) {
+          return 'Shop Name must be betweem 5 and 12 characters';
+        }
+
+        return null;
+      },
+      onSaved: (String value) {
+      },
+    );
+  }
+  Widget _buildcat() {
+    return Row(
+      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+      children: <Widget>[
+        Text('Category',
+          style: TextStyle(fontSize: 30,fontWeight: FontWeight.bold),),
+        DropdownButton<String>(
+          style:TextStyle(fontSize: 30,fontWeight: FontWeight.bold,color: Colors.black),
+          icon: Icon(Icons.arrow_drop_down),
+          underline: SizedBox(),
+          items: types.map((String string){
+            return DropdownMenuItem<String>(
+              value:string,
+              child: Text(string),
+            );
+          }).toList(),
+          onChanged: (String selected){
+            _ondropdownselected(selected);
+            print(currentselected);
+          },
+          value: currentselected,
+        ),
+      ],
+    );
+  }
 
   Widget _buildEmailField() {
     return TextFormField(
@@ -82,12 +136,12 @@ class _LoginState extends State<Login> {
             borderRadius: new BorderRadius.circular(25.0),
             borderSide: new BorderSide(),
           ),
-        labelStyle: TextStyle(color: Colors.white54),
+        labelStyle: TextStyle(color: Colors.black),
       ),
       keyboardType: TextInputType.emailAddress,
       initialValue: '',
-      style: TextStyle(fontSize: 26, color: Colors.white),
-      cursorColor: Colors.white,
+      style: TextStyle(fontSize: 26, color: Colors.black),
+      cursorColor: Colors.black,
       validator: (String value) {
         if (value.isEmpty) {
           return 'Email is required';
@@ -115,10 +169,10 @@ class _LoginState extends State<Login> {
             borderRadius: new BorderRadius.circular(25.0),
             borderSide: new BorderSide(),
           ),
-        labelStyle: TextStyle(color: Colors.white54),
+        labelStyle: TextStyle(color: Colors.black),
       ),
-      style: TextStyle(fontSize: 26, color: Colors.white),
-      cursorColor: Colors.white,
+      style: TextStyle(fontSize: 26, color: Colors.black),
+      cursorColor: Colors.black,
       obscureText: true,
       controller: _passwordController,
       validator: (String value) {
@@ -146,16 +200,15 @@ class _LoginState extends State<Login> {
             borderRadius: new BorderRadius.circular(25.0),
             borderSide: new BorderSide(),
           ),
-        labelStyle: TextStyle(color: Colors.white54),
+        labelStyle: TextStyle(color: Colors.black),
       ),
-      style: TextStyle(fontSize: 26, color: Colors.white),
-      cursorColor: Colors.white,
+      style: TextStyle(fontSize: 26, color: Colors.black),
+      cursorColor: Colors.black,
       obscureText: true,
       validator: (String value) {
         if (_passwordController.text != value) {
           return 'Passwords do not match';
         }
-
         return null;
       },
     );
@@ -167,10 +220,16 @@ class _LoginState extends State<Login> {
 
     return Scaffold(
       body: Container(
+
         constraints: BoxConstraints.expand(
           height: MediaQuery.of(context).size.height,
         ),
-        decoration: BoxDecoration(color: Color(0xff34056D)),
+        decoration: BoxDecoration(color: Colors.white,
+            image: DecorationImage(
+            image: AssetImage("assets/bg.PNG"),
+        fit: BoxFit.cover,
+        )
+        ),
         child: Form(
           autovalidate: true,
           key: _formKey,
@@ -182,17 +241,21 @@ class _LoginState extends State<Login> {
                   Text(
                     "Please Sign In",
                     textAlign: TextAlign.center,
-                    style: TextStyle(fontSize: 36, color: Colors.white),
+                    style: TextStyle(fontSize: 36, color: Colors.white,
+                    fontWeight: FontWeight.bold),
                   ),
-                  SizedBox(height: 40),
+                  SizedBox(height: 20),
                   _authMode == AuthMode.Signup ? _buildDisplayNameField() : Container(),
-                  SizedBox(height: 32),
+                  SizedBox(height: 20),
                   _buildEmailField(),
-                  SizedBox(height: 32),
+                  SizedBox(height: 20),
                   _buildPasswordField(),
-                  SizedBox(height: 32),
+                  SizedBox(height: 20),
                   _authMode == AuthMode.Signup ? _buildConfirmPasswordField() : Container(),
-                  SizedBox(height: 32),
+                  SizedBox(height: 20),
+                  _authMode == AuthMode.Signup ? _buildcat() : Container(),
+                  currentselected == 'Seller' ? _buildshopname():Container(),
+                  SizedBox(height: 20),
                   ButtonTheme(
                     minWidth: 200,
                     child: RaisedButton(
@@ -228,5 +291,12 @@ class _LoginState extends State<Login> {
         ),
       ),
     );
+  }
+  void _ondropdownselected(String newvalue)
+  {
+    setState(() {
+
+      this.currentselected = newvalue;
+    });
   }
 }

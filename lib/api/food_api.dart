@@ -1,6 +1,6 @@
-import 'package:flutternewsapp/auth_notifier.dart';
+import 'package:flutternewsapp/api/auth_notifier.dart';
 import 'package:firebase_auth/firebase_auth.dart';
-import 'package:flutternewsapp/user.dart';
+import 'package:flutternewsapp/model/user.dart';
 
 login(User user, AuthNotifier authNotifier) async {
   AuthResult authResult = await FirebaseAuth.instance

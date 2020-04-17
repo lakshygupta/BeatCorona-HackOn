@@ -4,4 +4,5 @@ class User
   String email;
   String password;
   String type;
+  String shopname;
 }
