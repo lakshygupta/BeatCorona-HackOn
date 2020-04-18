@@ -1,8 +1,10 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutternewsapp/api/food_api.dart';
+import 'package:flutternewsapp/buy/mylist.dart';
 import 'package:flutternewsapp/login.dart';
 import 'package:flutternewsapp/reminders.dart';
+import 'package:geolocator/geolocator.dart';
 import 'package:provider/provider.dart';
 import 'api/auth_notifier.dart';
 import 'model/data.dart';
@@ -95,7 +97,12 @@ void notesOpen(BuildContext context) async {
   }
 
 
-class Need extends StatelessWidget {
+class Need extends StatefulWidget {
+  @override
+  _NeedState createState() => _NeedState();
+}
+
+class _NeedState extends State<Need> {
   List<Data> data = [
     Data(text: 'Fruits', customor: 'Dhwaj Gupta', category: 'fruits'),
     Data(text: 'MILK', customor: 'Rahul Kushwaha', category: 'Home'),
@@ -149,6 +156,12 @@ class Need extends StatelessWidget {
       ),
     );
   }
+
+  final Geolocator geolocator = Geolocator()..forceAndroidLocationManager;
+
+  Position _currentPosition;
+
+  String _currentAddress = " ";
 
   @override
   Widget build(BuildContext context) {
@@ -318,14 +331,34 @@ class Need extends StatelessWidget {
             ),
             ListTile(
               leading: Icon(Icons.event_note,
-              color: Colors.blue,),
+                color: Colors.blue,),
               title: Text(
-                'Get News',
+                'My Buying list',
                 style: TextStyle(
                   fontSize: 20,
                 ),
               ),
               onTap: () {
+
+                Navigator.push(
+                    context,
+                    new MaterialPageRoute(
+                        builder: (BuildContext context) => new Mylist()));
+                // Update the state of the app.
+                // ...
+              },
+            ),
+            ListTile(
+              leading: Icon(Icons.event_note,
+              color: Colors.blue,),
+              title: Text(
+                'Latest News',
+                style: TextStyle(
+                  fontSize: 20,
+                ),
+              ),
+              onTap: () {
+
                 var id = 1;
                 Navigator.push(
                     context,
@@ -425,14 +458,14 @@ class Need extends StatelessWidget {
             ListTile(
               leading:Icon(Icons.developer_mode,
                 color: Colors.green,) ,
-              title: Text('Miscellaneous',
+              title: Text('About',
                 style: TextStyle(
                   fontSize: 20,
                 ),),
               onTap: () {
                 // Update the state of the app.
                 // ...
-
+                _getCurrentLocation();
                 Navigator.push(
                     context,
                     new MaterialPageRoute(
@@ -450,6 +483,7 @@ class Need extends StatelessWidget {
                 ),
               ),
               onTap: () {
+
                 return signout(authNotifier);
                 // Update the state of the app.
                 // ...
@@ -457,7 +491,7 @@ class Need extends StatelessWidget {
             ),
             new Divider(color: Colors.blueGrey,),
             ListTile(
-              title: Text("Rahul Kushwaha | Dhwaj Gupta | Lakshy Gupta", style: TextStyle(fontSize: 11.0, color: Colors.grey,), ),
+              title: Text("Rahul Kushwaha | Dhwaj Gupta | Lakshy Gupta" ,style: TextStyle(fontSize: 11.0, color: Colors.grey,), ),
             )
           ],
         ),
@@ -465,7 +499,7 @@ class Need extends StatelessWidget {
       floatingActionButton: FloatingActionButton(
         child:
           IconButton(
-            icon: const Icon(Icons.speaker_notes),
+            icon: const Icon(Icons.add),
             onPressed: () {
               Navigator.push(
                   context,
@@ -476,6 +510,36 @@ class Need extends StatelessWidget {
           ),
       ),
     );
+  }
+
+  _getCurrentLocation() {
+    geolocator
+        .getCurrentPosition(desiredAccuracy: LocationAccuracy.best)
+        .then((Position position) {
+      setState(() {
+        _currentPosition = position;
+      });
+
+      _getAddressFromLatLng();
+    }).catchError((e) {
+      print(e);
+    });
+  }
+
+  _getAddressFromLatLng() async {
+    try {
+      List<Placemark> p = await geolocator.placemarkFromCoordinates(
+          _currentPosition.latitude, _currentPosition.longitude);
+
+      Placemark place = p[0];
+
+      setState(() {
+        _currentAddress =
+        "${place.thoroughfare},\n ${place.subAdministrativeArea}, ${place.subLocality}, ${place.locality}, ${place.postalCode}, ${place.country}";
+      });
+    } catch (e) {
+      print(e);
+    }
   }
 }
 

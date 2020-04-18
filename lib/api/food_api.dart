@@ -2,6 +2,38 @@ import 'package:firebase_database/firebase_database.dart';
 import 'package:flutternewsapp/api/auth_notifier.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutternewsapp/model/user.dart';
+import 'package:geolocator/geolocator.dart';
+
+
+final Geolocator geolocator = Geolocator()..forceAndroidLocationManager;
+Position _currentPosition;
+String _currentAddress = " ";
+
+_getCurrentLocation() {
+  geolocator
+      .getCurrentPosition(desiredAccuracy: LocationAccuracy.best)
+      .then((Position position) {
+      _currentPosition = position;
+    _getAddressFromLatLng();
+  }).catchError((e) {
+    print(e);
+  });
+}
+
+_getAddressFromLatLng() async {
+  try {
+    List<Placemark> p = await geolocator.placemarkFromCoordinates(
+        _currentPosition.latitude, _currentPosition.longitude);
+
+    Placemark place = p[0];
+
+    _currentAddress =
+    "${place.thoroughfare},\n ${place.subAdministrativeArea}, ${place.subLocality}, ${place.locality}, ${place.postalCode}, ${place.country}";
+  } catch (e) {
+    print(e);
+  }
+}
+
 
 login(User user, AuthNotifier authNotifier) async {
   AuthResult authResult = await FirebaseAuth.instance
@@ -11,8 +43,12 @@ login(User user, AuthNotifier authNotifier) async {
   if (authResult != null) {
     FirebaseUser firebaseUser = authResult.user;
     if (firebaseUser != null) {
+
       print("Log In: $firebaseUser");
       authNotifier.setUser(firebaseUser);
+      _getCurrentLocation();
+      print('current address'+_currentAddress);
+      print(_currentAddress);
     }
   }
 }
@@ -28,6 +64,7 @@ signup(User user, AuthNotifier authNotifier,String shopname,String type,String l
     updateInfo.displayName = user.displayName;
     FirebaseUser firebaseUser = authResult.user;
 
+
     if (firebaseUser != null) {
       await firebaseUser.updateProfile(updateInfo);
       await firebaseUser.reload();
@@ -35,6 +72,9 @@ signup(User user, AuthNotifier authNotifier,String shopname,String type,String l
       FirebaseUser currentUser = await FirebaseAuth.instance.currentUser();
       authNotifier.setUser(currentUser);
       final DBRef = FirebaseDatabase.instance.reference().child('Users');
+
+
+
       DBRef.child(authNotifier.user.uid).set(
           {
             'username':authNotifier.user.displayName,
@@ -48,6 +88,8 @@ signup(User user, AuthNotifier authNotifier,String shopname,String type,String l
     }
   }
 }
+
+
 
 signout(AuthNotifier authNotifier) async {
   await FirebaseAuth.instance

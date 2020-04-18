@@ -67,7 +67,7 @@ class _LoginState extends State<Login> {
           return 'Display Name is required';
         }
 
-        if (value.length < 5 || value.length > 12) {
+        if (value.length < 5 || value.length > 20) {
           return 'Display Name must be betweem 5 and 12 characters';
         }
 
