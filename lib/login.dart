@@ -1,4 +1,6 @@
 
+import 'package:firebase_auth/firebase_auth.dart';
+import 'package:firebase_database/firebase_database.dart';
 import 'package:flutter/material.dart';
 import 'package:flutternewsapp/model/user.dart';
 import 'package:provider/provider.dart';
@@ -20,6 +22,8 @@ class _LoginState extends State<Login> {
   AuthMode _authMode = AuthMode.Login;
   var types = ['Seller','Buyer'];
   var currentselected = 'Buyer';
+  String shopname = null;
+  String location = null;
   User _user = User();
 
   @override
@@ -29,7 +33,7 @@ class _LoginState extends State<Login> {
     super.initState();
   }
 
-  void _submitForm() {
+  void _submitForm() async {
     if (!_formKey.currentState.validate()) {
       return;
     }
@@ -41,7 +45,7 @@ class _LoginState extends State<Login> {
     if (_authMode == AuthMode.Login) {
       login(_user, authNotifier);
     } else {
-      signup(_user, authNotifier);
+      signup(_user, authNotifier,shopname,currentselected,location);
     }
   }
 
@@ -99,6 +103,7 @@ class _LoginState extends State<Login> {
         return null;
       },
       onSaved: (String value) {
+        shopname = value;
       },
     );
   }
@@ -217,7 +222,6 @@ class _LoginState extends State<Login> {
   @override
   Widget build(BuildContext context) {
     print("Building login screen");
-
     return Scaffold(
       body: Container(
 
