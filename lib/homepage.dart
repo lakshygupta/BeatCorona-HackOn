@@ -1,30 +1,98 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutternewsapp/api/food_api.dart';
 import 'package:flutternewsapp/login.dart';
 import 'package:flutternewsapp/reminders.dart';
 import 'package:provider/provider.dart';
-import 'auth_notifier.dart';
-import 'data.dart';
+import 'api/auth_notifier.dart';
+import 'model/data.dart';
 import 'Register.dart';
-import 'newsfeeds.dart';
-import 'world_cases.dart';
-import 'live_updates.dart';
-import 'package:flutternewsapp/count.dart';
-import 'precautions.dart';
-import 'bibliography.dart';
+import 'Drawer/newsfeeds.dart';
+import 'Drawer/world_cases.dart';
+import 'Drawer/live_updates.dart';
+import 'package:flutternewsapp/Drawer/count.dart';
+import 'Drawer/precautions.dart';
+import 'Drawer/bibliography.dart';
+import 'package:firebase_database/firebase_database.dart';
+import 'package:firebase_core/firebase_core.dart';
 
-void notesOpen(BuildContext context) {
-  Navigator.push(context, MaterialPageRoute(
-    builder: (BuildContext context) {
-      return Scaffold(
-        appBar: AppBar(
-          title: Text('Your List'),
-          backgroundColor: Colors.red[400],
-        ),
+void notesOpen(BuildContext context) async {
+    FirebaseUser user = await FirebaseAuth.instance.currentUser();
+    print(user.uid);
+  final DBRef = FirebaseDatabase.instance.reference().child('Users');
+    DBRef.child(user.uid).set(
+        {
+          'id': user.uid,
+          'email':user.email,
+          'phone':'',
+          'type' :'c'
+        }
+    );
+  void writeData() {
+    DBRef.child("Requirements").set(
+        {
+          'id': 'ID1',
+          'data': 'This is sample data'
+        }
+    );
+  }
+    void readData() {
+      DBRef.once().then(
+              (DataSnapshot snapshot) {
+            print(snapshot.value);
+          }
+
       );
-    },
-  ));
-}
+    }
+  void updateData() {
+          DBRef.update({
+            'data':'updated'
+          });
+  }
+  void deleteData() {
+    DBRef.remove();
+  }
+    Navigator.push(context, MaterialPageRoute(
+      builder: (BuildContext context) {
+        return Scaffold(
+          appBar: AppBar(
+            title: Text('Your List'),
+            backgroundColor: Colors.red[400],
+          ),
+          body: Row(
+            children: <Widget>[
+              RaisedButton(
+                child: Text('Write here'),
+                onPressed: () {
+                  writeData();
+                },
+              ),
+              RaisedButton(
+                child: Text('read data'),
+                onPressed: () {
+                  readData();
+                },
+
+              ),
+                RaisedButton(
+                child: Text('Update'),
+              onPressed: () {
+                updateData();
+                },
+                ),
+              RaisedButton(
+              child: Text('Delete'),
+              onPressed: () {
+              deleteData();
+              },
+              )
+            ],
+          ),
+        );
+      },
+    ));
+  }
+
 
 class Need extends StatelessWidget {
   List<Data> data = [
@@ -87,7 +155,7 @@ class Need extends StatelessWidget {
     print("Building Homepage");
     return Scaffold(
       appBar: AppBar(
-        title: Text(authNotifier.user != null ? 'Welcome ' + authNotifier.user.displayName  : "Homepage", style: TextStyle(fontSize: 20.0),),
+        title: Text(authNotifier.user != null ? 'Welcome ' + authNotifier.user.displayName + ' '   : "Homepage", style: TextStyle(fontSize: 20.0),),
         backgroundColor: Colors.blue,
         actions: <Widget>[
 //          IconButton(
