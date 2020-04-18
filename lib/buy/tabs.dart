@@ -2,6 +2,8 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_database/firebase_database.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+
+import 'mylist.dart';
 typedef OnDelete();
 
 class User {
@@ -21,6 +23,10 @@ class UserForm extends StatefulWidget {
   _UserFormState createState() => state;
 
   bool isValid() => state.validate();
+}
+void printlist()
+{
+  print('list');
 }
 void _showDialog(BuildContext context) {
   // flutter defined function
@@ -44,15 +50,30 @@ void _showDialog(BuildContext context) {
     },
   );
 }
-      void Savelist(String itemname,String quantity) async
+void Savelist(String itemname,String quantity,int index) async
 {
+  String type = null;
   FirebaseUser user = await FirebaseAuth.instance.currentUser();
   print(user.uid);
+  if(index==0)
+    {
+      type = 'Groceries';
+    }
+   else if(index==1)
+     {
+       type = 'Medicines';
+     }
+   else if(index==2)
+     {
+       type = 'others';
+     }
+
   final DBRef = FirebaseDatabase.instance.reference().child('Users');
-  DBRef.child(user.uid).child('mylist').update(
+  DBRef.child(user.uid).child('mylist').push().set(
       {
         'itemname':itemname,
         'quantity':quantity,
+        'type':type,
       }
   );
 }
@@ -61,6 +82,8 @@ class _UserFormState extends State<UserForm> {
   final form = GlobalKey<FormState>();
    var quantity = 'null';
    var itemname = 'null';
+
+
   @override
   Widget build(BuildContext context) {
     return Padding(
@@ -140,13 +163,15 @@ class _UserFormState extends State<UserForm> {
                         textBaseline: TextBaseline.alphabetic
                     ),),
                   onPressed: ()  {
-                    Savelist(itemname, quantity);
+                    final index = DefaultTabController.of(context).index;
+                    Savelist(itemname, quantity,index);
                     _showDialog(context);
+                    printlist();
                     Navigator.push(
                         context,
                         new MaterialPageRoute(
                             builder: (BuildContext context) =>
-                            new TabBarDemo()));
+                            new Mylist()));
                   },
                 )
               )
@@ -170,6 +195,9 @@ class MultiForm extends StatefulWidget {
 
   @override
   _MultiFormState createState() => _MultiFormState();
+  final type ;
+  MultiForm({this.type});
+
 
 }
 
@@ -351,9 +379,9 @@ class TabBarDemo extends StatelessWidget {
           ),
           body: TabBarView(
             children: [
-              MultiForm(),
-              MultiForm(),
-              MultiForm(),
+              MultiForm(type: 'Groceries'),
+              MultiForm(type: 'Medicines'),
+              MultiForm(type: 'others'),
             ],
           ),
         ),
