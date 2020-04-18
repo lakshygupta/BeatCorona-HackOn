@@ -1,3 +1,4 @@
+import 'package:firebase_database/firebase_database.dart';
 import 'package:flutternewsapp/api/auth_notifier.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutternewsapp/model/user.dart';
@@ -16,7 +17,7 @@ login(User user, AuthNotifier authNotifier) async {
   }
 }
 
-signup(User user, AuthNotifier authNotifier) async {
+signup(User user, AuthNotifier authNotifier,String shopname,String type,String location) async {
   AuthResult authResult = await FirebaseAuth.instance
       .createUserWithEmailAndPassword(
           email: user.email, password: user.password)
@@ -30,11 +31,20 @@ signup(User user, AuthNotifier authNotifier) async {
     if (firebaseUser != null) {
       await firebaseUser.updateProfile(updateInfo);
       await firebaseUser.reload();
-
       print("Sign up: $firebaseUser");
-
       FirebaseUser currentUser = await FirebaseAuth.instance.currentUser();
       authNotifier.setUser(currentUser);
+      final DBRef = FirebaseDatabase.instance.reference().child('Users');
+      DBRef.child(authNotifier.user.uid).set(
+          {
+            'username':authNotifier.user.displayName,
+            'id': authNotifier.user.uid,
+            'email':authNotifier.user.email,
+            'type' :type,
+            'shopname':shopname,
+            'location':location,
+          }
+      );
     }
   }
 }

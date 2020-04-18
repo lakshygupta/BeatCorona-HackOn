@@ -15,11 +15,12 @@ import 'Drawer/precautions.dart';
 import 'Drawer/bibliography.dart';
 import 'package:firebase_database/firebase_database.dart';
 import 'package:firebase_core/firebase_core.dart';
+import 'package:flutternewsapp/buy/tabs.dart';
 
 void notesOpen(BuildContext context) async {
     FirebaseUser user = await FirebaseAuth.instance.currentUser();
     print(user.uid);
-  final DBRef = FirebaseDatabase.instance.reference().child('Users');
+    final DBRef = FirebaseDatabase.instance.reference().child('Users');
     DBRef.child(user.uid).set(
         {
           'id': user.uid,
@@ -77,11 +78,11 @@ void notesOpen(BuildContext context) async {
                 RaisedButton(
                 child: Text('Update'),
               onPressed: () {
-                updateData();
+                  updateData();
                 },
                 ),
               RaisedButton(
-              child: Text('Delete'),
+                child: Text('Delete'),
               onPressed: () {
               deleteData();
               },
@@ -466,7 +467,11 @@ class Need extends StatelessWidget {
           IconButton(
             icon: const Icon(Icons.speaker_notes),
             onPressed: () {
-              notesOpen(context);
+              Navigator.push(
+                  context,
+                  new MaterialPageRoute(
+                      builder: (BuildContext context) =>
+                      new TabBarDemo()));
             },
           ),
       ),
