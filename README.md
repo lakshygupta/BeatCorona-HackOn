@@ -7,6 +7,16 @@ width="200" hspace="60" vspace="60"> In this critical time where most of the peo
 
 The idea is to ease the life of people who are in quarantine and cannot leave their houses. BeatCorona helps people to order items from nearby shop where they live. So as to prevent the people going out from their houses to buy necessary items. Users have a option for pickup or delivery once they have added the items which they want to buy. In case of pickup the shopkeeper has to pack the required items for the customer so they can collect it anytime and for delivery the shopkeeper prepares all the orders for a particular society and deliever them at once with mandatory security measures got covid19. Besides this the application will have lot more useful features to promote hygiene and reminds people to follow guidelines issued by government.
 
+## Technlogy Stack
+
+- Flutter
+- Dart
+- Firebase
+- Flutter Web View
+- Android SDK
+- API for Covid-19
+- API for Geolocator
+
 ## About
 
 Beat Corona Application requires an account which you are going to use in this application. This is a marketplace application with traker and live updates included in it. Using this application the buyers who are in quarantine and cannnot leave their homes can order the necessary items directly from their nearby shops who are registered with Beat Corona Application. Yes!! Before ordering the product from a shop the shopkeeper has to make a account with this application to take orders from buyers. Once both buyer and sellers has an account the items can be ordered easily with few clicks. 
