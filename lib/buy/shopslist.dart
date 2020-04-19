@@ -109,7 +109,7 @@ class _ShoplistState extends State<Shoplist> {
       ),
       body: new Container(
         child: isLoading ? Center( child: CircularProgressIndicator(),): shoplist.length == 0? Center(
-    child: new Text("All the added items will be shown here",style: TextStyle(
+    child: new Text("No Shops Nearby",style: TextStyle(
         fontStyle: FontStyle.italic,
         fontSize: 20
     ),)) : new ListView.builder(
