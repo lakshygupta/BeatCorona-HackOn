@@ -24,7 +24,7 @@ Buyer has option either he can schoose to pickup the item from the shop directly
 This application allows you to view all the Headlines of Covid-19 in India and also shows the Live updates for covid-19 with a built-in tracker for India cases as well as World cases. 
 
 ##### This application was originally created by Team AMIITY for HackOn - the online hackathon.
-Team Members :- [DhwajGupta](https://github.com/dhwaj1902) , [Rahul Kushwaha](https://github.com/RahulKushwaha762) , [Lakshy Gupta](https://github.com/lakshygupta)
+Team Members :- [Dhwaj Gupta](https://github.com/dhwaj1902) , [Rahul Kushwaha](https://github.com/RahulKushwaha762) , [Lakshy Gupta](https://github.com/lakshygupta)
 
 ## Features
 
