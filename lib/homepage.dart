@@ -2,7 +2,9 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutternewsapp/api/food_api.dart';
 import 'package:flutternewsapp/buy/mylist.dart';
+import 'package:flutternewsapp/buy/shopslist.dart';
 import 'package:flutternewsapp/login.dart';
+import 'package:flutternewsapp/model/shops.dart';
 import 'package:flutternewsapp/reminders.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:provider/provider.dart';
@@ -391,6 +393,24 @@ class _NeedState extends State<Need> {
               },
             ),
             ListTile(
+              leading: Icon(Icons.shop,
+                color: Colors.green,),
+              title: Text(
+                'Nearby Shops',
+                style: TextStyle(
+                  fontSize: 20,
+                ),
+              ),
+              onTap: () {
+                Navigator.push(
+                    context,
+                    new MaterialPageRoute(
+                        builder: (BuildContext context) => new Shoplist()));
+                // Update the state of the app.
+                // ...
+              },
+            ),
+            ListTile(
               leading: Icon(Icons.event_note,
               color: Colors.blue,),
               title: Text(
@@ -520,9 +540,19 @@ class _NeedState extends State<Need> {
             ListTile(
               title: Text("Rahul Kushwaha | Dhwaj Gupta | Lakshy Gupta" ,style: TextStyle(fontSize: 11.0, color: Colors.grey,), ),
             ),
-            ListTile(
-              title: Text('Your address: '+_currentAddress ,style: TextStyle(fontSize: 11.0, color: Colors.grey,), ),
-            )
+           new Row(
+             mainAxisAlignment: MainAxisAlignment.center,
+             children: <Widget>[
+               InkWell(
+                 child:Text('Your address: '+_currentAddress ,style: TextStyle(fontSize: 11.0, color: Colors.grey,), ),
+                 onLongPress: () {
+
+                 }
+                 ),
+             ],
+           ),
+
+
           ],
         ),
       ),

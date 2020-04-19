@@ -58,7 +58,7 @@ void _showDialog(BuildContext context) {
       // return object of type Dialog
       return AlertDialog(
         title: new Text("Data Saved"),
-        content: new Text("Data saved on database"),
+        content: new Text("Data saved in Your Buying list",style: TextStyle(fontSize: 20),),
         actions: <Widget>[
           // usually buttons at the bottom of the dialog
           new FlatButton(
@@ -167,38 +167,58 @@ class _UserFormState extends State<UserForm> {
                     },
                 ),
               ),
-              Padding(
-                padding: EdgeInsets.only(left: 16, right: 16, bottom: 24),
-                child: RaisedButton(
-                  elevation: 10.0,
-                  padding: EdgeInsets.symmetric(vertical: 13.0, horizontal: 15.0),
-                  color: Colors.green,
-                  textColor: Colors.white,
-                  child: Text('Notify and Save',
-                    style: TextStyle(
-                        fontSize: 32.0,
-                        fontWeight: FontWeight.bold,
-                        fontStyle: FontStyle.italic,
-                        textBaseline: TextBaseline.alphabetic
-                    ),),
-                  onPressed: ()  {
-                    final index = DefaultTabController.of(context).index;
-                    if(itemname == '' || quantity == '')
-                      {
-                        _showDialogenter(context);
-                      }
-                    else {
-                      Savelist(itemname, quantity, index);
-                      _showDialog(context);
-                      printlist();
-                      Navigator.push(
-                          context,
-                          new MaterialPageRoute(
-                              builder: (BuildContext context) =>
-                              new Mylist()));
-                    }
-                  },
-                )
+              Column(
+                children: <Widget>[
+                  Padding(
+                    padding: EdgeInsets.only(left: 16, right: 16, bottom: 24),
+                    child: RaisedButton(
+        elevation: 10.0,
+        padding: EdgeInsets.symmetric(vertical: 8.0, horizontal: 8.0),
+        color: Colors.green,
+        textColor: Colors.white,
+        child: Text('Pickup/Delivery',
+          style: TextStyle(
+              fontSize: 32.0,
+              fontWeight: FontWeight.bold,
+              fontStyle: FontStyle.italic,
+              textBaseline: TextBaseline.alphabetic
+          ),),
+        onPressed: ()  {
+
+        },
+      ),
+                  ),
+                  Padding(
+                    padding: const EdgeInsets.all(8.0),
+                    child: RaisedButton(
+                      elevation: 10.0,
+                      padding: EdgeInsets.symmetric(vertical: 8.0, horizontal: 8.0),
+                      color: Colors.green,
+                      textColor: Colors.white,
+                      child: Text('Notify and Save',
+                        style: TextStyle(
+                            fontSize: 32.0,
+                            fontWeight: FontWeight.bold,
+                            fontStyle: FontStyle.italic,
+                            textBaseline: TextBaseline.alphabetic
+                        ),),
+                      onPressed: ()  {
+                        final index = DefaultTabController.of(context).index;
+                        if(itemname == '' || quantity == '')
+                        {
+                          _showDialogenter(context);
+                        }
+                        else {
+                          Savelist(itemname, quantity, index);
+                          _showDialog(context);
+                          printlist();
+
+                        }
+
+                      },
+                    ),
+                  )
+                ],
               )
             ],
           ),
@@ -237,17 +257,7 @@ class _MultiFormState extends State<MultiForm> {
 
         title: Text('List'),
         actions: <Widget>[
-          FlatButton(
-            child: Text('See Your list'),
-            textColor: Colors.white,
-            onPressed:() {
-          Navigator.push(
-          context,
-          new MaterialPageRoute(
-          builder: (BuildContext context) =>
-          new Mylist()));
-            },
-          )
+
         ],
       ),
       body: Container(
@@ -380,6 +390,7 @@ class EmptyState extends StatelessWidget {
           ],
         ),
       ),
+
     );
   }
 }
