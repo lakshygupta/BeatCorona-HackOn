@@ -108,6 +108,43 @@ class _NeedState extends State<Need> {
     Data(text: 'MILK', customor: 'Rahul Kushwaha', category: 'Home'),
     Data(text: 'Water Bottles', customor: 'Lakshy Gupta', category: 'Home'),
   ];
+  void showAlert(context)
+  {
+    AuthNotifier authNotifier = Provider.of<AuthNotifier>(context, listen: false);
+    Widget cancelButton = FlatButton(
+      child: Text("Cancel"),
+      onPressed:  () {
+        Navigator.pop(context);
+
+
+      },
+    );
+    Widget continueButton = FlatButton(
+      child: Text("Yes"),
+      onPressed:  () {
+        Navigator.pop(context);
+        signout(authNotifier);
+      },
+    );
+
+    // set up the AlertDialog
+    AlertDialog alert = AlertDialog(
+      title: Text("Log Out"),
+      content: Text("Do you want to Log out?"),
+      actions: [
+        cancelButton,
+        continueButton,
+      ],
+    );
+
+    // show the dialog
+    showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        return alert;
+      },
+    );
+  }
 
   Widget getIcon(list) {
     print(list.category);
@@ -158,14 +195,19 @@ class _NeedState extends State<Need> {
   }
 
   final Geolocator geolocator = Geolocator()..forceAndroidLocationManager;
-
   Position _currentPosition;
-
   String _currentAddress = " ";
+  final DBRef = FirebaseDatabase.instance.reference().child('Users');
 
   @override
   Widget build(BuildContext context) {
     AuthNotifier authNotifier = Provider.of<AuthNotifier>(context, listen: false);
+    _getCurrentLocation();
+
+    DBRef.child(authNotifier.user.uid).update(
+        {
+          'location':_currentAddress,
+        });
     print("Building Homepage");
     return Scaffold(
       appBar: AppBar(
@@ -195,8 +237,8 @@ class _NeedState extends State<Need> {
         IconButton(
             icon: const Icon(Icons.power_settings_new),
             onPressed: () {
-
-          return signout(authNotifier);
+               //return signout(authNotifier);
+                showAlert(context);
             },
           ),
         ],
@@ -368,21 +410,6 @@ class _NeedState extends State<Need> {
                 // ...
               },
             ),
-
-            ListTile(
-              leading: Icon(Icons.shop,
-                color: Colors.green,),
-              title: Text(
-                'Nearby Shops',
-                style: TextStyle(
-                  fontSize: 20,
-                ),
-              ),
-              onTap: () {
-                // Update the state of the app.
-                // ...
-              },
-            ),
             ListTile(
               leading:Icon(Icons.location_city,
                 color: Colors.orange,) ,
@@ -492,6 +519,9 @@ class _NeedState extends State<Need> {
             new Divider(color: Colors.blueGrey,),
             ListTile(
               title: Text("Rahul Kushwaha | Dhwaj Gupta | Lakshy Gupta" ,style: TextStyle(fontSize: 11.0, color: Colors.grey,), ),
+            ),
+            ListTile(
+              title: Text('Your address: '+_currentAddress ,style: TextStyle(fontSize: 11.0, color: Colors.grey,), ),
             )
           ],
         ),

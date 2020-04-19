@@ -28,6 +28,28 @@ void printlist()
 {
   print('list');
 }
+void _showDialogenter(BuildContext context) {
+  // flutter defined function
+  showDialog(
+    context: context,
+    builder: (BuildContext context) {
+      // return object of type Dialog
+      return AlertDialog(
+        title: new Text("Please Fill Data"),
+        content: new Text("Fields cannot be empty"),
+        actions: <Widget>[
+          // usually buttons at the bottom of the dialog
+          new FlatButton(
+            child: new Text("OK"),
+            onPressed: () {
+              Navigator.of(context).pop();
+            },
+          ),
+        ],
+      );
+    },
+  );
+}
 void _showDialog(BuildContext context) {
   // flutter defined function
   showDialog(
@@ -80,8 +102,8 @@ void Savelist(String itemname,String quantity,int index) async
 
 class _UserFormState extends State<UserForm> {
   final form = GlobalKey<FormState>();
-   var quantity = 'null';
-   var itemname = 'null';
+   var quantity = '';
+   var itemname = '';
 
 
   @override
@@ -116,9 +138,6 @@ class _UserFormState extends State<UserForm> {
                 padding: EdgeInsets.only(left: 16, right: 16, top: 16),
                 child: TextFormField(
                   initialValue: widget.user.itemName,
-
-//                  validator: (val) =>
-//                  val.length > 43 ? null : 'Enter valid item',
                   decoration: InputDecoration(
                     labelText: 'Item Name',
                     hintText: 'Enter your item name',
@@ -164,14 +183,20 @@ class _UserFormState extends State<UserForm> {
                     ),),
                   onPressed: ()  {
                     final index = DefaultTabController.of(context).index;
-                    Savelist(itemname, quantity,index);
-                    _showDialog(context);
-                    printlist();
-                    Navigator.push(
-                        context,
-                        new MaterialPageRoute(
-                            builder: (BuildContext context) =>
-                            new Mylist()));
+                    if(itemname == '' || quantity == '')
+                      {
+                        _showDialogenter(context);
+                      }
+                    else {
+                      Savelist(itemname, quantity, index);
+                      _showDialog(context);
+                      printlist();
+                      Navigator.push(
+                          context,
+                          new MaterialPageRoute(
+                              builder: (BuildContext context) =>
+                              new Mylist()));
+                    }
                   },
                 )
               )
@@ -215,7 +240,13 @@ class _MultiFormState extends State<MultiForm> {
           FlatButton(
             child: Text('See Your list'),
             textColor: Colors.white,
-            onPressed: onSave,
+            onPressed:() {
+          Navigator.push(
+          context,
+          new MaterialPageRoute(
+          builder: (BuildContext context) =>
+          new Mylist()));
+            },
           )
         ],
       ),

@@ -15,7 +15,58 @@ class Mylist extends StatefulWidget {
 
 class _MylistState extends State<Mylist> {
   List<Listmy> buyinglist = [];
+  bool isLoading  = true;
+  void showAlert(context,String key,String itemname)
+  {
+    AuthNotifier authNotifier = Provider.of<AuthNotifier>(context, listen: false);
+    Widget cancelButton = FlatButton(
+      child: Text("Cancel"),
+      onPressed:  () {
+        Navigator.pop(context);
 
+
+      },
+    );
+    Widget continueButton = FlatButton(
+      child: Text("Yes"),
+      onPressed:  () {
+        Navigator.pop(context);
+        onPress(key);
+      },
+    );
+
+    // set up the AlertDialog
+    AlertDialog alert = AlertDialog(
+      title: Text(itemname),
+      content: Text("Do you want to delete?"),
+      actions: [
+        cancelButton,
+        continueButton,
+      ],
+    );
+
+    // show the dialog
+    showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        return alert;
+      },
+    );
+  }
+
+  onPress(String key)
+  {
+    AuthNotifier authNotifier = Provider.of<AuthNotifier>(context, listen: false);
+    final DBref = FirebaseDatabase.instance.reference().child('Users').child(authNotifier.user.uid).child("mylist");
+    print('pressed $key');
+    DBref.child(key).remove();
+    Navigator.pushReplacement(
+        context,
+        new MaterialPageRoute(
+            builder: (BuildContext context) =>
+            new Mylist()));
+
+  }
   @override
   void initState() {
     // TODO: implement initState
@@ -24,25 +75,40 @@ class _MylistState extends State<Mylist> {
     print('uSER '+ authNotifier.user.uid);
     final DBref = FirebaseDatabase.instance.reference().child('Users').child(authNotifier.user.uid).child("mylist");
     DBref.once().then((DataSnapshot snap) {
-      var KEYS = snap.value.keys;
-      var DATA = snap.value;
-      buyinglist.clear();
 
-      for(var individualKey in KEYS)
-      {
+      if(snap.value!=null) {
+        var KEYS = snap.value.keys;
+        var DATA = snap.value;
+        buyinglist.clear();
+
+        for (var individualKey in KEYS) {
           Listmy my = new Listmy
-          (
-              quantity: DATA[individualKey]['quantity'],
-              itemname: DATA[individualKey]['itemname'],
-              type: DATA[individualKey]['type'],
-        );
+            (
+            quantity: DATA[individualKey]['quantity'],
+            itemname: DATA[individualKey]['itemname'],
+            type: DATA[individualKey]['type'],
+            key: individualKey,
+          );
           buyinglist.add(my);
+        }
+
+        setState(() {
+          print('buyinglist=$buyinglist.length');
+          isLoading = false;
+        });
+
       }
+      else
+      {
+      print("checked");
       setState(() {
-        print('buyinglist=$buyinglist.length');
+        isLoading = false;
       });
+      }
 
     });
+
+
   }
 
   @override
@@ -52,16 +118,16 @@ class _MylistState extends State<Mylist> {
         title: Text('My List'),
       ),
       body: new Container(
-        child: buyinglist.length == 0?Center(
-          child: new Text("All the added items will be shown here",style: TextStyle(
-            fontStyle: FontStyle.italic,
-            fontSize: 20
-          ),),
-        ): new ListView.builder(
+        child: isLoading ? Center( child: CircularProgressIndicator(),): buyinglist.length == 0? Center(
+    child: new Text("All the added items will be shown here",style: TextStyle(
+        fontStyle: FontStyle.italic,
+        fontSize: 20
+    ),)) : new ListView.builder(
           itemCount: buyinglist.length,
           itemBuilder: (_,index)
           {
-              return Postsui(buyinglist[index].quantity, buyinglist[index].itemname,buyinglist[index].type);
+              print('key==='+buyinglist[index].key);
+              return Postsui(buyinglist[index].quantity, buyinglist[index].itemname,buyinglist[index].type,buyinglist[index].key);
           }
 
         ),
@@ -82,7 +148,7 @@ class _MylistState extends State<Mylist> {
     );
   }
 
-  Widget Postsui( String quantity,String itemname,String type)
+  Widget Postsui( String quantity,String itemname,String type,String key)
   {
     return new Card(
       elevation: 10.0,
@@ -129,12 +195,28 @@ class _MylistState extends State<Mylist> {
                 indent: 16.0,
               ),
               SizedBox(height: 10.0),
-              new Text(
-                type,
-                textAlign: TextAlign.center,
-                style: TextStyle(
-                    color: Colors.white
-                ),
+
+              Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: <Widget>[
+                  new Text(
+                    type,
+                    textAlign: TextAlign.center,
+                    style: TextStyle(
+                        color: Colors.white
+                    ),
+                  ),
+                  RaisedButton(
+                    elevation: 20.0,
+                    child:Text('Delete',style: TextStyle(
+                      fontSize: 20,color: Colors.white
+                    ),),
+                    color: Colors.red,
+                    onPressed: (){
+                      showAlert(context, key,itemname);
+                    },
+                  ),
+                ],
               )
             ],
           ),
