@@ -1,7 +1,7 @@
 # Beat Corona : Android Application
 
 <img src="assets/icon.png" align="left"
-width="200" hspace="10" vspace="10"> In this critical time where most of the people are in their homes because of coronavirus. To help the people who are in quarantine and analyse their needs we have come up with this solution of <strong>BeatCorona Android Application</strong>. This is one stop solution for all the needs of people in quarantine.
+width="200" hspace="10" vspace="10"> In this critical time where most of the people are in their homes because of coronavirus. To help the people who are in quarantine and analyse their needs we have come up with this solution of <strong>BeatCorona Android Application</strong>. This is one stop solution for all the needs of people in quarantine.<br><br><br><br><br><br>
 
 ## Idea
 
