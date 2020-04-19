@@ -14,7 +14,6 @@ The idea is to ease the life of people who are in quarantine and cannot leave th
 - Firebase
 - Flutter Web View
 - Android SDK
-- API for Covid-19
 - API for Geolocator
 
 ## About
@@ -47,4 +46,4 @@ On Android versions prior to Android 6.0, BeatCorona requires the following perm
 - Location.
 #### (Location Permission is to show the user list of nearby shops)
 
-
+## To Download the .APK file [Click Here](https://drive.google.com/file/d/10okpKecQNRfLM0yUbzt-nm0aiOJadHhA)
