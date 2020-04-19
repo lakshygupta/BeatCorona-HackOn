@@ -25,6 +25,7 @@ class _LoginState extends State<Login> {
   String shopname = null;
   String location = null;
   User _user = User();
+  bool isLoading = false;
 
   @override
   void initState() {
@@ -33,8 +34,9 @@ class _LoginState extends State<Login> {
     super.initState();
   }
 
-  void _submitForm() async {
+  void _submitForm(BuildContext context) async {
     if (!_formKey.currentState.validate()) {
+      isLoading =  false;
       return;
     }
 
@@ -43,9 +45,12 @@ class _LoginState extends State<Login> {
     AuthNotifier authNotifier = Provider.of<AuthNotifier>(context, listen: false);
 
     if (_authMode == AuthMode.Login) {
-      login(_user, authNotifier);
+
+      login(_user, authNotifier,context);
+      isLoading = false;
     } else {
-      signup(_user, authNotifier,shopname,currentselected,location);
+      signup(_user, authNotifier,shopname,currentselected,context);
+      isLoading = false;
     }
   }
 
@@ -67,8 +72,8 @@ class _LoginState extends State<Login> {
           return 'Display Name is required';
         }
 
-        if (value.length < 5 || value.length > 20) {
-          return 'Display Name must be betweem 5 and 12 characters';
+        if (value.length < 1 || value.length > 20) {
+          return 'Display Name must be betweem 5 and 20 characters';
         }
 
         return null;
@@ -242,12 +247,27 @@ class _LoginState extends State<Login> {
               padding: EdgeInsets.fromLTRB(32, 96, 32, 0),
               child: Column(
                 children: <Widget>[
+                  _authMode == AuthMode.Signup ?  Text(
+                "Register Yourself",
+                textAlign: TextAlign.center,
+                style: TextStyle(fontSize: 36, color: Colors.white,
+                    fontWeight: FontWeight.bold,shadows: <Shadow>[
+                    Shadow(
+                    offset: Offset(1.0, 5.0),
+                blurRadius: 3.0,
+                color: Color.fromARGB(255, 0, 0, 0),
+              ),]))
+                :
                   Text(
-                    "Please Sign In",
-                    textAlign: TextAlign.center,
-                    style: TextStyle(fontSize: 36, color: Colors.white,
-                    fontWeight: FontWeight.bold),
-                  ),
+                      "Please Sign In",
+                      textAlign: TextAlign.center,
+                      style: TextStyle(fontSize: 36, color: Colors.white,
+                          fontWeight: FontWeight.bold,shadows: <Shadow>[
+                            Shadow(
+                              offset: Offset(1.0, 5.0),
+                              blurRadius: 3.0,
+                              color: Color.fromARGB(255, 0, 0, 0),
+                            ),])),
                   SizedBox(height: 20),
                   _authMode == AuthMode.Signup ? _buildDisplayNameField() : Container(),
                   SizedBox(height: 20),
@@ -260,12 +280,30 @@ class _LoginState extends State<Login> {
                   _authMode == AuthMode.Signup ? _buildcat() : Container(),
                   currentselected == 'Seller' ? _buildshopname():Container(),
                   SizedBox(height: 20),
+
+
+                 isLoading ? CircularProgressIndicator():ButtonTheme(
+                    minWidth: 200,
+                    child: RaisedButton(
+                      padding: EdgeInsets.all(10.0),
+                      onPressed: () {
+                        isLoading = true;
+                        return _submitForm(context);
+
+                        },
+                      child: Text(
+                        _authMode == AuthMode.Login ? 'Login' : 'Confirm',
+                        style: TextStyle(fontSize: 20, color: Colors.white),
+                      ),
+                    ),
+                  ),
+                  SizedBox(height: 16),
                   ButtonTheme(
                     minWidth: 200,
                     child: RaisedButton(
                       padding: EdgeInsets.all(10.0),
                       child: Text(
-                        'Switch to ${_authMode == AuthMode.Login ? 'Signup' : 'Login'}',
+                        '${_authMode == AuthMode.Login ? 'Register' : 'Login'}',
                         style: TextStyle(fontSize: 20, color: Colors.white),
                       ),
                       onPressed: () {
@@ -274,18 +312,6 @@ class _LoginState extends State<Login> {
                           _authMode == AuthMode.Login ? AuthMode.Signup : AuthMode.Login;
                         });
                       },
-                    ),
-                  ),
-                  SizedBox(height: 16),
-                  ButtonTheme(
-                    minWidth: 200,
-                    child: RaisedButton(
-                      padding: EdgeInsets.all(10.0),
-                      onPressed: () => _submitForm(),
-                      child: Text(
-                        _authMode == AuthMode.Login ? 'Login' : 'Signup',
-                        style: TextStyle(fontSize: 20, color: Colors.white),
-                      ),
                     ),
                   ),
                 ],
