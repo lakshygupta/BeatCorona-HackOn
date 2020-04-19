@@ -247,12 +247,27 @@ class _LoginState extends State<Login> {
               padding: EdgeInsets.fromLTRB(32, 96, 32, 0),
               child: Column(
                 children: <Widget>[
+                  _authMode == AuthMode.Signup ?  Text(
+                "Register Yourself",
+                textAlign: TextAlign.center,
+                style: TextStyle(fontSize: 36, color: Colors.white,
+                    fontWeight: FontWeight.bold,shadows: <Shadow>[
+                    Shadow(
+                    offset: Offset(1.0, 5.0),
+                blurRadius: 3.0,
+                color: Color.fromARGB(255, 0, 0, 0),
+              ),]))
+                :
                   Text(
-                    "Please Sign In",
-                    textAlign: TextAlign.center,
-                    style: TextStyle(fontSize: 36, color: Colors.white,
-                    fontWeight: FontWeight.bold),
-                  ),
+                      "Please Sign In",
+                      textAlign: TextAlign.center,
+                      style: TextStyle(fontSize: 36, color: Colors.white,
+                          fontWeight: FontWeight.bold,shadows: <Shadow>[
+                            Shadow(
+                              offset: Offset(1.0, 5.0),
+                              blurRadius: 3.0,
+                              color: Color.fromARGB(255, 0, 0, 0),
+                            ),])),
                   SizedBox(height: 20),
                   _authMode == AuthMode.Signup ? _buildDisplayNameField() : Container(),
                   SizedBox(height: 20),
@@ -277,7 +292,7 @@ class _LoginState extends State<Login> {
 
                         },
                       child: Text(
-                        _authMode == AuthMode.Login ? 'Login' : 'Signup',
+                        _authMode == AuthMode.Login ? 'Login' : 'Confirm',
                         style: TextStyle(fontSize: 20, color: Colors.white),
                       ),
                     ),
@@ -288,7 +303,7 @@ class _LoginState extends State<Login> {
                     child: RaisedButton(
                       padding: EdgeInsets.all(10.0),
                       child: Text(
-                        'Switch to ${_authMode == AuthMode.Login ? 'Signup' : 'Login'}',
+                        '${_authMode == AuthMode.Login ? 'Register' : 'Login'}',
                         style: TextStyle(fontSize: 20, color: Colors.white),
                       ),
                       onPressed: () {

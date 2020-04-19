@@ -52,8 +52,8 @@ class UserList extends StatelessWidget{
                             ListTile(
                               isThreeLine: true,
                               title: Text(_name(snapshot.data[index]),style: TextStyle(fontSize: 20.0, fontWeight: FontWeight.normal),),
-                              subtitle: Text(_cases(snapshot.data[index]),style: TextStyle(fontSize: 15.0),),
-                              trailing: Text(_death(snapshot.data[index]),style: TextStyle(fontSize: 15.0),),
+                              subtitle: Text(_cases(snapshot.data[index]),style: TextStyle(fontSize: 15.0,color: Colors.green,),),
+                              trailing: Text(_death(snapshot.data[index]),style: TextStyle(fontSize: 15.0,color: Colors.red,),),
                             )
                           ],
                         ),

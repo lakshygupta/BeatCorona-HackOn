@@ -511,7 +511,7 @@ class _NeedState extends State<Need> {
               ),
               onTap: () {
 
-                return signout(authNotifier);
+                showAlert(context);
                 // Update the state of the app.
                 // ...
               },

@@ -6,7 +6,7 @@ class Sources extends StatelessWidget{
 
     return Scaffold(
         appBar: AppBar(
-          title: Text('Miscellaneous'),
+          title: Text('About'),
         ),
       body: SingleChildScrollView(
 
